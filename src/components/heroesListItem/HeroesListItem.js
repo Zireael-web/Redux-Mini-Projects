@@ -1,21 +1,7 @@
-import { useDispatch, useSelector} from 'react-redux';
-import { heroDeleted } from '../../actions';
 
 
-const HeroesListItem = ({id, name, description, element}) => {
 
-    const heroes = useSelector(state => state.heroes);
-    const dispatch = useDispatch();
-
-    const onClickDelete = () => {
-        const heroesWithoutDeleted = heroes.filter(item => item.id !== id)
-        console.log(heroesWithoutDeleted)
-        dispatch(heroDeleted(heroesWithoutDeleted))
-
-        fetch("http://localhost:3001/heroes/" + id, {
-            method: 'DELETE'
-        })
-    }
+const HeroesListItem = ({name, description, element, onDelete}) => {
 
     let elementClassName;
 
@@ -53,7 +39,7 @@ const HeroesListItem = ({id, name, description, element}) => {
                     type="button" 
                     className="btn-close btn-close" 
                     aria-label="Close"
-                    onClick={onClickDelete}
+                    onClick={onDelete}
                 >
                 </button>
             </span>

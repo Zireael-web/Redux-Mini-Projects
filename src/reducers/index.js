@@ -1,6 +1,6 @@
 const initialState = {
     heroes: [],
-    sortedHeroes: [],
+    filteredHeroes: [],
     heroesLoadingStatus: 'idle',
     filters: [],
     filtersLoadingStatus: 'loading',
@@ -18,6 +18,9 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: action.payload,
+                filteredHeroes: state.activeFilterId === 1 ? 
+                                action.payload : 
+                                action.payload.filter(item => item.element === state.activeFilterId),
                 heroesLoadingStatus: 'idle'
             }
         case 'HEROES_FETCHING_ERROR':
@@ -46,24 +49,39 @@ const reducer = (state = initialState, action) => {
 
 
         case 'HERO_ADDED':
+            let newHeroList = [...state.heroes, action.payload]
             return {
                 ...state,
-                heroes: action.payload
+                heroes: newHeroList,
+                filteredHeroes: state.activeFilterId === 1 ? 
+                                newHeroList : 
+                                newHeroList.filter(item => item.element === state.activeFilterId)    
             }
         case 'HERO_DELETED':
+            const filteredHeroList = state.heroes.filter(item => item.id !== action.payload);
             return {
                 ...state,
-                heroes: action.payload
+                heroes: filteredHeroList,
+                filteredHeroes: state.activeFilterId === 1 ? 
+                                newHeroList : 
+                                newHeroList.filter(item => item.element === state.activeFilterId)
             }
 
 
-        default: return state
         case 'FILTER_CHANGED': 
             return {
                 ...state,
-                activeFilterId: action.payload
+                activeFilterId: action.payload,
+                filteredHeroes: action.payload === 1 ? 
+                                state.heroes :
+                                state.heroes.filter(item => item.element === action.payload)
             }
-    }
+
+            
+        default: return state
+        }
+        
 }
+
 
 export default reducer;

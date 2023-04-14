@@ -11,6 +11,7 @@ export const heroesFetched = (heroes) => {
     }
 }
 
+
 export const heroesFetchingError = () => {
     return {
         type: 'HEROES_FETCHING_ERROR'
@@ -62,7 +63,7 @@ export const heroAdded = (heroes) => {
 export const filterChanged = (id) => {
     return {
         type: 'FILTER_CHANGED',
-        payload: id
+        payload: +id
     }
 }
 

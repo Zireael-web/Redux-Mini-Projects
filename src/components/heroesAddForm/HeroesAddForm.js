@@ -17,7 +17,7 @@ const HeroesAddForm = () => {
     const [heroDescription, setHeroDescription] = useState('');
     const [heroElement, setHeroElement] = useState('');
 
-    const {heroes, filters, filtersLoadingStatus} = useSelector(state => state)
+    const {filters, filtersLoadingStatus} = useSelector(state => state)
     const dispatch = useDispatch();
     const { request } = useHttp();
     
@@ -39,49 +39,42 @@ const HeroesAddForm = () => {
             description: heroDescription,
             element: heroElement
         }
-        const heroesWithAdded = [...heroes, newHero]
 
-        dispatch(heroAdded(heroesWithAdded))
-
-        fetch("http://localhost:3001/heroes", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newHero)
-        })
+        request("http://localhost:3001/heroes", 'POST', JSON.stringify(newHero))
+            .then(dispatch(heroAdded(newHero)))
+            .catch(err => console.log(err))
 
         setHeroName('');
         setHeroDescription('');
         setHeroElement('');
     }
 
-    const filtersInSelect = () => {
-        switch (filtersLoadingStatus) {
+    const filtersInSelect = (filters, status) => {
+        switch (status) {
             case ('loading'): 
                 return <Spinner style={{marginTop: '35px'}}/>
             case ('idle'): 
                 return (
                     <>
-                        <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
-                            <select 
-                                required
-                                onChange={(e) => setHeroElement(e.target.value)}
-                                value={heroElement}
-                                className="form-select" 
-                                id="element" 
-                                name="element"
-                                placeholder="Я владею элементом..."
-                                >
-                                
-                                {filters.map(filter => {
-                                    return (
-                                        (filter.name !== 'all') ? <option value={filter.name}>{filter.text}</option>
-                                        : <option value="" disabled selected>Список элементов</option>
-                                    )
-                                })}
-                            </select> 
+                    <label htmlFor="element" className="form-label">Выбрать элемент героя</label>
+                        <select 
+                            required
+                            onChange={(e) => setHeroElement(e.target.value)}
+                            value={heroElement}
+                            className="form-select" 
+                            id="element" 
+                            name="element"
+                            placeholder="Я владею элементом..."
+                            >
+                            <option value="" disabled selected>Список элементов</option>
+                            {filters.map(filter => {
+                            return (
+                                (filter.name !== 'all') ? <option value={filter.name}>{filter.text}</option>
+                                : null
+                            )
+                            })}
+                        </select> 
+                        
                     </>
                 )
             case ('error'): 
@@ -122,7 +115,7 @@ const HeroesAddForm = () => {
             </div>
 
             <div className="mb-3">
-                {filtersInSelect()}
+                {filtersInSelect(filters, filtersLoadingStatus)}
             </div>
 
             <button 
