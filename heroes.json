@@ -1,0 +1,59 @@
+{
+  "heroes": [
+    {
+      "id": 1,
+      "name": "герой 1",
+      "description": "Как аквамен, но не из DC",
+      "element": 3
+    },
+    {
+      "id": 2,
+      "name": "герой 2",
+      "description": "Как аквамен, но не из DC",
+      "element": 2
+    },
+    {
+      "id": 3,
+      "name": "герой 3",
+      "description": "Как аквамен, но не из DC",
+      "element": 4
+    }
+  ],
+  "filters": [
+    {
+      "id": 1,
+      "name": "all",
+      "text": "Все",
+      "color": "btn-dark",
+      "selectedByDefault": true
+    },
+    {
+      "id": 2,
+      "name": "fire",
+      "text": "Огонь",
+      "color": "btn-danger",
+      "selectedByDefault": false
+    },
+    {
+      "id": 3,
+      "name": "water",
+      "text": "Вода",
+      "color": "btn-primary",
+      "selectedByDefault": false
+    },
+    {
+      "id": 4,
+      "name": "wind",
+      "text": "Ветер",
+      "color": "btn-success",
+      "selectedByDefault": false
+    },
+    {
+      "id": 5,
+      "name": "earth",
+      "text": "Земля",
+      "color": "btn-secondary",
+      "selectedByDefault": false
+    }
+  ]
+}
