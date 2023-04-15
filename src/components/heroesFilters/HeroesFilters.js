@@ -1,6 +1,8 @@
 import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 
+import classNames from 'classnames';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { filtersFetched, filtersFetching, filtersFetchingError, filterChanged } from '../../actions';
 
@@ -9,7 +11,7 @@ import Spinner from '../spinner/Spinner';
 const HeroesFilters = () => {
 
     const { request } = useHttp();
-    const { filters, filtersLoadingStatus } = useSelector(state => state);
+    const { filters, filtersLoadingStatus, activeFilterId } = useSelector(state => state);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -36,11 +38,14 @@ const HeroesFilters = () => {
                 return (
                     <>
                         {filters.map(filter => {
+                            const btnClass = classNames('btn', filter.color, {
+                                'active': filter.id === activeFilterId
+                            });
                             return (
                                 <button 
                                 onClick={onHandleFilter}
                                 data-id={filter.id}
-                                className={`btn ${filter.color}`}
+                                className={btnClass}
                                 >
                                     {filter.text}
                                 </button>

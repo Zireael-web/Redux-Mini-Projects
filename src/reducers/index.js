@@ -63,8 +63,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 heroes: filteredHeroList,
                 filteredHeroes: state.activeFilterId === 1 ? 
-                                newHeroList : 
-                                newHeroList.filter(item => item.element === state.activeFilterId)
+                                filteredHeroList : 
+                                filteredHeroList.filter(item => item.element === state.activeFilterId)
             }
 
 

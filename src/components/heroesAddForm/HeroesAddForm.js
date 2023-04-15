@@ -37,7 +37,7 @@ const HeroesAddForm = () => {
             id: uidv4(),
             name: heroName,
             description: heroDescription,
-            element: heroElement
+            element: filters.find(item => item.name === heroElement).id
         }
 
         request("http://localhost:3001/heroes", 'POST', JSON.stringify(newHero))
