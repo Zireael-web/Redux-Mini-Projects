@@ -1,3 +1,10 @@
+export const fetchHeroes = (request) => (dispatch) => {
+    dispatch(heroesFetching());
+        request("http://localhost:3001/heroes")
+            .then(data => dispatch(heroesFetched(data)))
+            .catch(() => dispatch(heroesFetchingError()))
+}
+
 export const heroesFetching = () => {
     return {
         type: 'HEROES_FETCHING'
@@ -67,6 +74,14 @@ export const filterChanged = (id) => {
     }
 }
 
+/* export const filterChanged = (id) => (dispatch) => {
+    setTimeout(() => {
+        dispatch({
+            type: 'FILTER_CHANGED',
+            payload: +id
+        })
+    }, 150)
+} */
 
 
 

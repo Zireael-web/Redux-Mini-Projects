@@ -4,7 +4,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { heroesFetching, heroesFetched, heroesFetchingError, heroDeleted } from '../../actions';
+import { fetchHeroes, heroDeleted } from '../../actions';
 
 import { createSelector } from 'reselect';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
@@ -29,16 +29,13 @@ const HeroesList = () => {
         }
     )
 
-    const filteredHeroes = useSelector(filteredHeroesSelector);
+    const filteredHeroes = useSelector(filteredHeroesSelector); 
     const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch('HEROES_FETCHING');
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(fetchHeroes(request));
 
         // eslint-disable-next-line
     }, []);
