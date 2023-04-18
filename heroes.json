@@ -7,16 +7,16 @@
       "element": 3
     },
     {
-      "id": 2,
-      "name": "герой 2",
-      "description": "Как аквамен, но не из DC",
-      "element": 2
-    },
-    {
       "id": 3,
       "name": "герой 3",
       "description": "Как аквамен, но не из DC",
       "element": 4
+    },
+    {
+      "id": "62f3de90-6cdd-4267-8375-df7bb10ab4c7",
+      "name": "текст",
+      "description": "текст",
+      "element": 2
     }
   ],
   "filters": [

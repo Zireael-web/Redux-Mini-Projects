@@ -4,7 +4,8 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchHeroes, heroDeleted } from '../../actions';
+import { fetchHeroes } from '../../actions';
+import { heroDeleted } from './heroesSlice';
 
 import { createSelector } from 'reselect';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';

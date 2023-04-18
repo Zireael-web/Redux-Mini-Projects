@@ -6,11 +6,11 @@ import { useState, useEffect } from 'react';
 import { v4 as uidv4 } from 'uuid';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { filtersFetched, filtersFetching, filtersFetchingError } from '../../actions';
-import { heroAdded } from '../../actions';
+import { fetchFilters } from '../../actions';
+import { heroAdded } from '../heroesList/heroesSlice';
 
 import Spinner from '../spinner/Spinner';
-
+    
 const HeroesAddForm = () => {
 
     const [heroName, setHeroName] = useState('');
@@ -22,10 +22,7 @@ const HeroesAddForm = () => {
     const { request } = useHttp();
     
     useEffect(() => {
-        dispatch(filtersFetching());
-        request("http://localhost:3001/filters")
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
+        dispatch(fetchFilters(request))
 
         // eslint-disable-next-line
     }, []);

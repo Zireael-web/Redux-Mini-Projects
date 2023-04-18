@@ -1,3 +1,6 @@
+import { createAction } from "@reduxjs/toolkit";
+import { heroesFetched, heroesFetching, heroesFetchingError } from "../components/heroesList/heroesSlice";
+
 export const fetchHeroes = (request) => (dispatch) => {
     dispatch(heroesFetching());
         request("http://localhost:3001/heroes")
@@ -5,67 +8,15 @@ export const fetchHeroes = (request) => (dispatch) => {
             .catch(() => dispatch(heroesFetchingError()))
 }
 
-export const heroesFetching = () => {
-    return {
-        type: 'HEROES_FETCHING'
-    }
+export const fetchFilters = (request) => (dispatch) => {
+    dispatch(filtersFetching());
+        request("http://localhost:3001/filters")
+            .then(data => dispatch(filtersFetched(data)))
+            .catch(() => dispatch(filtersFetchingError()))
 }
-
-export const heroesFetched = (heroes) => {
-    return {
-        type: 'HEROES_FETCHED',
-        payload: heroes
-    }
-}
-
-
-export const heroesFetchingError = () => {
-    return {
-        type: 'HEROES_FETCHING_ERROR'
-    }
-}
-
-
-
-
-export const filtersFetching = () => {
-    return {
-        type: 'FILTERS_FETCHING'
-    }
-}
-
-export const filtersFetched = (filters) => {
-    return {
-        type: 'FILTERS_FETCHED',
-        payload: filters
-    }
-}
-
-export const filtersFetchingError = () => {
-    return {
-        type: 'FILTERS_FETCHING_ERROR'
-    }
-}
-
-
-
-
-export const heroDeleted = (heroes) => {
-    return {
-        type: 'HERO_DELETED',
-        payload: heroes
-    }
-}
-
-export const heroAdded = (heroes) => {
-    return {
-        type: 'HERO_ADDED',
-        payload: heroes
-    }
-}
-
-
-
+export const filtersFetching = createAction('FILTERS_FETCHING');
+export const filtersFetched = createAction('FILTERS_FETCHED');
+export const filtersFetchingError = createAction('FILTERS_FETCHING_ERROR');
 
 export const filterChanged = (id) => {
     return {
@@ -73,15 +24,24 @@ export const filterChanged = (id) => {
         payload: +id
     }
 }
-
-/* export const filterChanged = (id) => (dispatch) => {
-    setTimeout(() => {
-        dispatch({
-            type: 'FILTER_CHANGED',
-            payload: +id
-        })
-    }, 150)
+/* export const filtersFetching = () => {
+    return {
+        type: 'FILTERS_FETCHING'
+    }
+}
+export const filtersFetched = (filters) => {
+    return {
+        type: 'FILTERS_FETCHED',
+        payload: filters
+    }
+}
+export const filtersFetchingError = () => {
+    return {
+        type: 'FILTERS_FETCHING_ERROR'
+    }
 } */
+
+
 
 
 
