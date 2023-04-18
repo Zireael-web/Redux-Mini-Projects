@@ -4,10 +4,9 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchHeroes } from '../../actions';
-import { heroDeleted } from './heroesSlice';
+import { heroDeleted, fetchHeroes } from './heroesSlice';
 
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
@@ -36,7 +35,7 @@ const HeroesList = () => {
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(fetchHeroes(request));
+        dispatch(fetchHeroes());
 
         // eslint-disable-next-line
     }, []);
@@ -45,6 +44,7 @@ const HeroesList = () => {
         request(`http://localhost:3001/heroes/${id}`, "DELETE")
             .then(dispatch(heroDeleted(id)))
             .catch(err => console.log(err))
+        // eslint-disable-next-line
     }, [request])
 
     if (heroesLoadingStatus === "loading") {

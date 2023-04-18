@@ -1,12 +1,12 @@
 import './HeroesAddForm.scss'
 
-import { useHttp } from '../../hooks/http.hook';
 import { useState, useEffect } from 'react';
+import { useHttp } from '../../hooks/http.hook';
 
 import { v4 as uidv4 } from 'uuid';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilters } from '../../actions';
+import { fetchFilters } from '../heroesFilters/filtersSlice';
 import { heroAdded } from '../heroesList/heroesSlice';
 
 import Spinner from '../spinner/Spinner';
@@ -19,10 +19,10 @@ const HeroesAddForm = () => {
 
     const {filters, filtersLoadingStatus} = useSelector(state => state.filters)
     const dispatch = useDispatch();
-    const { request } = useHttp();
+    const {request} = useHttp();
     
     useEffect(() => {
-        dispatch(fetchFilters(request))
+        dispatch(fetchFilters())
 
         // eslint-disable-next-line
     }, []);
