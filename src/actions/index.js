@@ -1,5 +1,5 @@
-import { createAction } from "@reduxjs/toolkit";
 import { heroesFetched, heroesFetching, heroesFetchingError } from "../components/heroesList/heroesSlice";
+import { filtersFetched, filtersFetching, filtersFetchingError } from '../components/heroesFilters/filtersSlice';
 
 export const fetchHeroes = (request) => (dispatch) => {
     dispatch(heroesFetching());
@@ -14,9 +14,6 @@ export const fetchFilters = (request) => (dispatch) => {
             .then(data => dispatch(filtersFetched(data)))
             .catch(() => dispatch(filtersFetchingError()))
 }
-export const filtersFetching = createAction('FILTERS_FETCHING');
-export const filtersFetched = createAction('FILTERS_FETCHED');
-export const filtersFetchingError = createAction('FILTERS_FETCHING_ERROR');
 
 export const filterChanged = (id) => {
     return {
@@ -24,23 +21,6 @@ export const filterChanged = (id) => {
         payload: +id
     }
 }
-/* export const filtersFetching = () => {
-    return {
-        type: 'FILTERS_FETCHING'
-    }
-}
-export const filtersFetched = (filters) => {
-    return {
-        type: 'FILTERS_FETCHED',
-        payload: filters
-    }
-}
-export const filtersFetchingError = () => {
-    return {
-        type: 'FILTERS_FETCHING_ERROR'
-    }
-} */
-
 
 
 
