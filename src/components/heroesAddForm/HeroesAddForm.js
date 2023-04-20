@@ -1,3 +1,4 @@
+import store from '../../store';
 import './HeroesAddForm.scss'
 
 import { useState, useEffect } from 'react';
@@ -8,6 +9,8 @@ import { v4 as uidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../heroesFilters/filtersSlice';
 import { heroAdded } from '../heroesList/heroesSlice';
+import { selectAll } from '../heroesFilters/filtersSlice';
+
 
 import Spinner from '../spinner/Spinner';
     
@@ -17,9 +20,10 @@ const HeroesAddForm = () => {
     const [heroDescription, setHeroDescription] = useState('');
     const [heroElement, setHeroElement] = useState('');
 
-    const {filters, filtersLoadingStatus} = useSelector(state => state.filters)
+    const {filtersLoadingStatus} = useSelector(state => state.filters)
     const dispatch = useDispatch();
     const {request} = useHttp();
+    const filters = selectAll(store.getState())
     
     useEffect(() => {
         dispatch(fetchFilters())
