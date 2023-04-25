@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 import { useHttp } from "../../hooks/http.hook";
-import store from "../../store";
-
 
 const filtersAdapter = createEntityAdapter();
 

@@ -3,12 +3,12 @@ import './HeroesAddForm.scss'
 
 import { useState, useEffect } from 'react';
 import { useHttp } from '../../hooks/http.hook';
+import { useCreateHeroMutation } from '../../api/apiSlice';
 
 import { v4 as uidv4 } from 'uuid';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../heroesFilters/filtersSlice';
-import { heroAdded } from '../heroesList/heroesSlice';
 import { selectAll } from '../heroesFilters/filtersSlice';
 
 
@@ -20,9 +20,10 @@ const HeroesAddForm = () => {
     const [heroDescription, setHeroDescription] = useState('');
     const [heroElement, setHeroElement] = useState('');
 
+    const [createHero] = useCreateHeroMutation();
+
     const {filtersLoadingStatus} = useSelector(state => state.filters)
     const dispatch = useDispatch();
-    const {request} = useHttp();
     const filters = selectAll(store.getState())
     
     useEffect(() => {
@@ -41,9 +42,7 @@ const HeroesAddForm = () => {
             element: filters.find(item => item.name === heroElement).id
         }
 
-        request("http://localhost:3001/heroes", 'POST', JSON.stringify(newHero))
-            .then(dispatch(heroAdded(newHero)))
-            .catch(err => console.log(err))
+        createHero(newHero).unwrap();
 
         setHeroName('');
         setHeroDescription('');

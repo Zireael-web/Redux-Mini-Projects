@@ -1,10 +1,8 @@
 import './HeroesList.scss'
 
-import {useHttp} from '../../hooks/http.hook';
-import { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { heroDeleted, fetchHeroes, filteredHeroesSelector } from './heroesSlice';
+import { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useGetHeroesQuery, useDeleteHeroMutation } from '../../api/apiSlice';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -13,28 +11,39 @@ import Spinner from '../spinner/Spinner';
 
 
 const HeroesList = () => {
-    const filteredHeroes = useSelector(filteredHeroesSelector); 
-    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
-    const dispatch = useDispatch();
-    const { request } = useHttp();
 
-    useEffect(() => {
-        dispatch(fetchHeroes());
+    const {
+        data: heroes = [],  
+        isLoading,
+        isError
+    } = useGetHeroesQuery();
+
+    const [deleteHero] = useDeleteHeroMutation();
+
+    const activeFilterId = useSelector(state => state.filters.activeFilterId)
+     
+    const filteredHeroes = useMemo(() => {
+        const filteredHeroes = heroes.slice();
+
+        if (activeFilterId === 1) {
+            return filteredHeroes;
+        } else {
+            return filteredHeroes.filter(item => item.element === activeFilterId)
+        } 
 
         // eslint-disable-next-line
-    }, []);
+    }, [heroes, activeFilterId]);
+
 
     const onDelete = useCallback((id) => {
-        request(`http://localhost:3001/heroes/${id}`, "DELETE")
-            .then(dispatch(heroDeleted(id)))
-            .catch(err => console.log(err))
+        deleteHero(id)
         // eslint-disable-next-line
-    }, [request])
+    }, [])
 
-    if (heroesLoadingStatus === "loading") {
+    if (isLoading) {
         return <Spinner style={{marginTop: '55px'}}/>;
-    } else if (heroesLoadingStatus === "error") {
-        return <h5 className="text-center mt-5">Ошибка загрузки</h5>
+    } else if (isError) {
+        return <h5 className="text-center">Ошибка загрузки</h5>
     }
 
     const renderItems = (arr) => {
@@ -43,7 +52,7 @@ const HeroesList = () => {
                 <CSSTransition
                     timeout={0}
                     classNames="hero">
-                    <h5 className="text-center mt-5">Героев пока нет</h5>
+                    <h5 className="text-center">Героев пока нет</h5>
                 </CSSTransition>
             )
         }
@@ -61,8 +70,6 @@ const HeroesList = () => {
         // eslint-disable-next-line
     };
     
-    
-
     const elements = renderItems(filteredHeroes)
 
     return (
